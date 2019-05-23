@@ -1,0 +1,43 @@
+Space and Time Complexity:
+--------------------------
+Given N key - v alue pairs,
+Time complexity is O(N * R) when a single mapper and reducer task is used. Where R is the number of connections (at the degree being calculated. Higher the degree, the connection space increases)
+However for extremely large datasets, with moderate levelof cardinality, map and reduce phases can be run in parallel as each stage operates on its own data (k -v) and tries to breakdown the
+problem for the next stage without having to rely on global state
+
+Space complexity: The map-reduce model uses file streams and avoids large in-memory data structures. Theoretically, the map stage deals with
+one k-v pair a time, making it O(1) but the reduce phase implementation, aggregates(unions) the connection nodes (set) per key, theoretically, taking the
+complexity upto O(R) where R is the max number of connections a node can have. As  higher degree of relationships is calculated, the k - v pair becomes larger.
+Currently, the data structures used for k - v pairs are not lazy and the values(v) are modeled immutable. so a mutable copy of the values are created and used for
+implementing the 'logic' in the map stage.
+
+Network Complexity: N Reads and Writes per map/reduce/shuffle stage.
+
+
+Correctness:
+------------
+
+1. Map stage:
+
+for k -> V, where V = {v1, v2, ..} :
+    if V is set of Single element - v, then, include v -> {k} in k -> V processing// This captures the bi-directional relationship
+
+    send_to_sort(k, V)
+
+    for v in V:
+        # capture connections between elements of V
+        # In the first map stage, this captures 1 st degree connections
+        # In the second map stage, the second degree and so on
+        # Essentially adding more k - V pairs for reduction stage to aggregate
+        #k -> V = v -> V - {v}
+        send_to_sort(v, V - {v})
+
+
+2. Sort and shuffle keys
+    Each reducer theoretically gets k - V pairs for one K
+
+3. Reducer Stage:
+
+    Simple group by key, union over V, to get all the connection for the key
+
+When chained together, we can compose N-degree solutions by operating on a k - V pair at a time per stage.

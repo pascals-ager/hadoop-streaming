@@ -46,6 +46,10 @@ are as well sorted by the first username on each line.
 
 ## How to test:
 
+```
+chmod +x ./mapreduce/mapper.py ./mapreduce/reducer.py
+```
+
 eg: for N == 1, single stage map-reduce
 ```
  cat mapreduce/stream.txt | ./mapreduce/mapper.py | sort -k1,1 | ./mapreduce/reducer.py 
