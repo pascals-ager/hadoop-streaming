@@ -46,11 +46,11 @@ are as well sorted by the first username on each line.
 
 ## How to test:
 
-eg: for N == 0, single stage map-reduce
+eg: for N == 1, single stage map-reduce
 ```
  cat mapreduce/stream.txt | ./mapreduce/mapper.py | sort -k1,1 | ./mapreduce/reducer.py 
  ```
-eg: for N == 2, three stage map-reduce
+eg: for N == 2, two stage map-reduce
 ````
- cat mapreduce/stream.txt | ./mapreduce/mapper.py | sort -k1,1 | ./mapreduce/reducer.py | ./mapreduce/mapper.py | sort -k1,1 | ./mapreduce/reducer.py | ./mapreduce/mapper.py | sort -k1,1 | ./mapreduce/reducer.py 
+ cat mapreduce/stream.txt | ./mapreduce/mapper.py | sort -k1,1 | ./mapreduce/reducer.py | ./mapreduce/mapper.py | sort -k1,1 | ./mapreduce/reducer.py 
 ```
