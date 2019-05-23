@@ -26,7 +26,7 @@ class Mapper:
                 """
                 n_degree_connections = list(values)
                 n_degree_connections.remove(value)
-                if not values:
+                if not n_degree_connections:
                     pass
                 else:
                     print("{}{}{}".format(value, self.separator, self.separator.join(n_degree_connections)))
