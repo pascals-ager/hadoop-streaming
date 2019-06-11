@@ -1,4 +1,4 @@
-## Test:
+## Problem Statement:
 
 Given a set **S** of pairs of usernames corresponding to mutual friendships in
 a social network, write a program to output each user’s **i**-th degree friends,
